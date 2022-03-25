@@ -1108,9 +1108,9 @@ a:hover {
   border-radius: calc(0.18rem - 1px) calc(0.18rem - 1px) 0 0;
 }
 
-form {
+/* form {
   width: 100%;
-}
+} */
 
 form .form-group {
   display: block;
