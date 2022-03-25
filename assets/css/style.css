@@ -29,7 +29,7 @@ h6 {
 
 .custom-row-left {
   margin-left: 1.5rem;
-  margin-top: 1.5rem;
+  margin-top: 1rem;
 }
 
 .custom-hr {
@@ -54,7 +54,7 @@ h6 {
 }
 
 .custom-large-card{
-  margin-right: 2rem;
+  margin-right: auto;
 }
 
 .custom-card-text {
@@ -74,12 +74,8 @@ h6 {
 }
 
 @media (min-width: 992px) {
-  .row-cols-lg-5 > * {
-    width: 18%;
-  }
-
   .custom-large-card{
-    margin-right: auto;
+    margin-right: 2rem;
   }
 
 }
@@ -90,7 +86,7 @@ h6 {
   }
 
   .custom-large-card{
-    margin-right: auto;
+    margin-right: 3rem;
   }
 
 }
