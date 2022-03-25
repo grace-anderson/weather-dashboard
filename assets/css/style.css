@@ -1,5 +1,5 @@
 * {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 body {
@@ -16,4 +16,65 @@ h4,
 h5,
 h6 {
   font-weight: 500;
+}
+
+.custom-container {
+  width: 90%;
+  max-width: 1500px;
+}
+
+.custom-row {
+  --bs-gutter-x: 0;
+}
+
+.custom-row-left {
+  margin-left: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.custom-hr {
+  margin-top: 1rem;
+  margin-bottom: 0;
+}
+
+.custom-btn-secondary {
+  margin-top: 1rem;
+}
+
+.custom-form-label {
+  font-size: 1.1rem;
+  margin-right: 0.2rem;
+  margin-bottom: 1rem;
+}
+
+.custom-card {
+  margin-left: 0.6rem;
+  padding-right: 0.4rem;
+  padding-left: 0.4rem;
+}
+
+.custom-large-card{
+  margin-right: 2rem;
+}
+
+.custom-card-text {
+  font-size: 1rem;
+  font-weight: 300;
+  margin-bottom: 0.6rem;
+}
+
+@media only screen and (max-width: 768px) {
+  .custom-row-left {
+    margin-left: auto;
+  }
+  .custom-large-card{
+    margin-right: auto;
+  }
+
+}
+
+@media (min-width: 992px) {
+  .row-cols-lg-5 > * {
+    width: 18%;
+  }
 }
