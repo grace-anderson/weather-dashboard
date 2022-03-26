@@ -15,23 +15,27 @@ var UVindex = document.querySelector("#UVindex");
 //2. function triggered by  "submit" listener on the search form
 function handleSearchFormSubmit(event) {
   event.preventDefault();
+
   //create element selector with city entered in "search-input" text field
   var searchCity = document.querySelector("#search-city").value;
 
   //if nothing in the "search-input" text field, then show  error
   //TODO: make a pop up error
-  //TODO: manage when more than one city with same name - add country field?
   if (!searchCity) {
     console.error("Enter a city name");
     return;
   }
+
+  //TODO: manage when more than one city with same name - add country field?
+
   //Update city name to all lowercase
   searchCity = searchCity.toLowerCase();
 
   //3. pass city to getWeatherData
   getWeatherData(searchCity);
 
-  //TODO - clear search city when next clicked searchCity
+  //clear search city when next clicked searchCity
+  resetform();
 }
 
 //3. city is passed to getWeatherData, to get city's current weather data
@@ -60,7 +64,6 @@ function displayCityData(data) {
 
 //6. display the one call weather data
 function displayOneCallWeatherData(data) {
-  //TODO: uvindex
   var oneCallText = data;
   console.log("OneCallText:", oneCallText);
 
@@ -112,12 +115,11 @@ function displayOneCallWeatherData(data) {
     uviDisplay.className += "btn btn-warning disable-hover";
   } else if (parseInt(uvi) === 6 || parseInt(uvi) === 7) {
     uviDisplay.className += "btn btn-high disable-hover";
-  } else if (parseInt(uvi) === 6 || parseInt(uvi) === 7) {
+  } else if (parseInt(uvi) > 7 && parseInt(uvi) < 12) {
     uviDisplay.className += "btn btn-danger disable-hover";
   } else {
     uviDisplay.className += "btn btn-extreme disable-hover";
   }
-
 }
 
 //4. getCurrentWeather uses passed in city variable
@@ -161,3 +163,8 @@ function callApi(url) {
 //1. event listener for search for city submit
 //triggers handleSearchFormSubmit
 searchFormEl.addEventListener("submit", handleSearchFormSubmit);
+
+//reset form
+function resetform() {
+  document.getElementById("search-form").reset();
+}
