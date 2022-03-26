@@ -10,7 +10,7 @@ var cityTemp = document.querySelector("#city-temp");
 var cityWind = document.querySelector("#city-wind");
 var cityHumidity = document.querySelector("#city-humidity");
 var cityUVindex = document.querySelector("#city-UVindex");
-var UVindex = document.querySelector("#UVindex")
+var UVindex = document.querySelector("#UVindex");
 
 //2. function triggered by  "submit" listener on the search form
 function handleSearchFormSubmit(event) {
@@ -100,11 +100,24 @@ function displayOneCallWeatherData(data) {
 
   //get UV index
   var uvi = data.current.uvi;
-  var uviDisplay = document.createElement("span");
-  uviDisplay.classList.add("uvi-colour");
-  cityUVindex.append("UV Index: " + uviDisplay);
+  var uviDisplay = document.createElement("button");
+
+  cityUVindex.append("UV Index:  ");
+  cityUVindex.appendChild(uviDisplay);
   uviDisplay.textContent = uvi;
-  console.log(uviDisplay)
+
+  if (parseInt(uvi) < 3) {
+    uviDisplay.className += "btn btn-success disable-hover";
+  } else if (parseInt(uvi) >= 3 && parseInt(uvi) < 6) {
+    uviDisplay.className += "btn btn-warning disable-hover";
+  } else if (parseInt(uvi) === 6 || parseInt(uvi) === 7) {
+    uviDisplay.className += "btn btn-high disable-hover";
+  } else if (parseInt(uvi) === 6 || parseInt(uvi) === 7) {
+    uviDisplay.className += "btn btn-danger disable-hover";
+  } else {
+    uviDisplay.className += "btn btn-extreme disable-hover";
+  }
+
 }
 
 //4. getCurrentWeather uses passed in city variable

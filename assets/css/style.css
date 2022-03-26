@@ -63,6 +63,38 @@ h6 {
   margin-bottom: 0.6rem;
 }
 
+/* uvi button background colours */
+.disable-hover {
+  pointer-events: none;
+}
+
+.btn-success {
+  background-color: #157347;
+  color: white;
+}
+
+.btn-warning {
+  background-color: #ffca2c;
+}
+
+.btn-high {
+  background-color: #fd7e14;
+  border-color: #ff7600;
+  color: white;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn-extreme {
+  background-color: #6f42c1;
+  border-color: #6610f2;
+  color: white;
+}
+
+
 @media only screen and (max-width: 768px) {
   .custom-row-left {
     margin-left: auto;
