@@ -9,6 +9,8 @@ var weatherIcon = document.querySelector("#big-weather-icon");
 var cityTemp = document.querySelector("#city-temp");
 var cityWind = document.querySelector("#city-wind");
 var cityHumidity = document.querySelector("#city-humidity");
+var cityUVindex = document.querySelector("#city-UVindex");
+var UVindex = document.querySelector("#UVindex")
 
 //2. function triggered by  "submit" listener on the search form
 function handleSearchFormSubmit(event) {
@@ -83,6 +85,7 @@ function displayOneCallWeatherData(data) {
     "http://openweathermap.org/img/wn/" + cityWeatherIcon + "@2x.png";
   weatherIcon.src = weatherIconUrl;
 
+  //TO DO: if / else for when data not retrieved
   //get temperature
   var temp = data.current.temp;
   cityTemp.append("Temp: " + temp + "°C");
@@ -92,11 +95,16 @@ function displayOneCallWeatherData(data) {
   cityWind.append("Wind: " + wind + " km/h");
 
   //get humidity
-  var humidity = data.current.humidity
+  var humidity = data.current.humidity;
   cityHumidity.append("Humidity: " + humidity + " %");
 
   //get UV index
-  
+  var uvi = data.current.uvi;
+  var uviDisplay = document.createElement("span");
+  uviDisplay.classList.add("uvi-colour");
+  cityUVindex.append("UV Index: " + uviDisplay);
+  uviDisplay.textContent = uvi;
+  console.log(uviDisplay)
 }
 
 //4. getCurrentWeather uses passed in city variable
