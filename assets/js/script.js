@@ -15,6 +15,13 @@ var UVindex = document.querySelector("#UVindex");
 //2. function triggered by  "submit" listener on the search form
 function handleSearchFormSubmit(event) {
   event.preventDefault();
+  //clear previous values in html element
+  document.querySelector("#city-title").innerHTML = "";
+  document.querySelector("#big-weather-icon").innerHTML = "";
+  document.querySelector("#city-temp").innerHTML = "";
+  document.querySelector("#city-wind").innerHTML = "";
+  document.querySelector("#city-humidity").innerHTML = "";
+  document.querySelector("#city-UVindex").innerHTML = "";
 
   //create element selector with city entered in "search-input" text field
   var searchCity = document.querySelector("#search-city").value;
@@ -164,7 +171,7 @@ function callApi(url) {
 //triggers handleSearchFormSubmit
 searchFormEl.addEventListener("submit", handleSearchFormSubmit);
 
-//reset form
+//reset form (called by handleSearchFormSubmit)
 function resetform() {
   document.getElementById("search-form").reset();
 }
