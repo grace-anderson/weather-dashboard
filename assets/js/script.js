@@ -3,6 +3,8 @@ var searchFormEl = document.querySelector("#search-form");
 //API key
 var openWeatherApiKey = "f22e49aad8438adbd22ac06770e91152";
 //display elements
+var pageRow = document.querySelector("#page-row");
+var searchColumn = document.querySelector("#search-column");
 var cityTitle = document.querySelector("#city-title");
 var cityName;
 var weatherIcon = document.querySelector("#big-weather-icon");
@@ -17,6 +19,7 @@ function handleSearchFormSubmit(event) {
   event.preventDefault();
   //clear previous values in html element
   document.querySelector("#city-title").innerHTML = "";
+  //TODO: the weather icon is sticking and not clearing quickly
   document.querySelector("#big-weather-icon").innerHTML = "";
   document.querySelector("#city-temp").innerHTML = "";
   document.querySelector("#city-wind").innerHTML = "";
@@ -62,20 +65,44 @@ function getWeatherData(city) {
 
 //6. display the city data
 function displayCityData(data) {
+  //TO DO - hide card which will hold city data
   var cityText = data;
   //TODO: show error when nothing retrieved - see week 6 mini-project
   console.log("City Text:", cityText);
-  //display city name and date
+  //Get dity name
   cityName = data.name;
+
+  //6.a. call function to create the searched city button
+  createSearchedCity(cityName);
 }
 
-//6. display the one call weather data
+//6.a. create the searched city button
+function createSearchedCity(cityName) {
+  //save city into searched city block
+  //TODO limit of number of searched cities listed
+  var searchedCityDiv = document.createElement("div");
+  var searchedCityButton = document.createElement("button");
+  searchedCityButton.classList.add(
+    "btn",
+    "btn-secondary",
+    "custom-btn-secondary"
+  );
+  searchedCityButton.innerHTML = "<h6>" + cityName + "</h6>";
+
+  //   searchColumn.append(searchedCityDiv, searchedCityButton)
+  searchColumn.append(searchedCityDiv, searchedCityButton);
+
+  return searchedCityButton;
+  //TODO-getting "Enter a city name warning" when running this
+}
+
+//7. display the one call weather data
 function displayOneCallWeatherData(data) {
   var oneCallText = data;
   console.log("OneCallText:", oneCallText);
 
-  // calculate local date using timezone_offset
-  //get API city timezone_offset
+  //get date
+  // calculate local date using API timezone_offset
   var offset = data.timezone_offset;
   var date = new Date();
   var localTime = date.getTime();
@@ -116,6 +143,7 @@ function displayOneCallWeatherData(data) {
   cityUVindex.appendChild(uviDisplay);
   uviDisplay.textContent = uvi;
 
+  //TODO: update to normal classList.add format
   if (parseInt(uvi) < 3) {
     uviDisplay.className += "btn btn-success disable-hover";
   } else if (parseInt(uvi) >= 3 && parseInt(uvi) < 6) {
@@ -170,6 +198,9 @@ function callApi(url) {
 //1. event listener for search for city submit
 //triggers handleSearchFormSubmit
 searchFormEl.addEventListener("submit", handleSearchFormSubmit);
+
+// 6.a. create the searched city button
+searchCityButton.addEventListener("submit", handleSearchFormSubmit);
 
 //reset form (called by handleSearchFormSubmit)
 function resetform() {

@@ -53,12 +53,12 @@ h6 {
   padding-left: 0.4rem;
 }
 
-.custom-large-card{
+.custom-large-card {
   margin-right: auto;
 }
 
 .card-background {
-  background-color: #A6F0E3;
+  background-color: #a6f0e3;
 }
 
 .custom-card-text {
@@ -98,22 +98,19 @@ h6 {
   color: white;
 }
 
-
 @media only screen and (max-width: 768px) {
   .custom-row-left {
     margin-left: auto;
   }
-  .custom-large-card{
+  .custom-large-card {
     margin-right: auto;
   }
-
 }
 
 @media (min-width: 992px) {
-  .custom-large-card{
+  .custom-large-card {
     margin-right: 2rem;
   }
-
 }
 
 @media (min-width: 1200px) {
@@ -121,8 +118,7 @@ h6 {
     width: 18%;
   }
 
-  .custom-large-card{
+  .custom-large-card {
     margin-right: 3rem;
   }
-
 }
