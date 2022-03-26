@@ -4,6 +4,7 @@ var searchFormEl = document.querySelector("#search-form");
 var openWeatherApiKey = "f22e49aad8438adbd22ac06770e91152";
 //display elements
 var cityTitle = document.querySelector("#city-title");
+var cityName;
 
 //2. function triggered by  "submit" listener on the search form
 function handleSearchFormSubmit(event) {
@@ -44,8 +45,6 @@ function getWeatherData(city) {
 }
 
 //6. display the city data
-var cityName;
-
 function displayCityData(data) {
   var cityText = data;
   //TODO: show error when nothing retrieved - see week 6 mini-project
@@ -60,11 +59,11 @@ function displayOneCallWeatherData(data) {
   var oneCallText = data;
   console.log("OneCallText:", oneCallText);
 
-  var cityTimestamp = moment.unix(parseInt(data.current.dt)) + moment.unix(parseInt(data.timezone_offset));
-  var cityDate = moment.unix(cityTimestamp / 1000).format("DD/MM/YYYY");
-  console.log("cityDate: ", cityDate);
-
-  cityTitle.append(cityName + " (" + cityDate + ")");
+//TODO -ISSUE: returning local australian date, not city's timezone
+//attempt to use timezone not working
+var cityTimestamp = moment.unix(data.current.dt) + moment.unix(data.timezone_offset);
+var cityDate = moment.unix((cityTimestamp) / 1000).format("DD/MM/YYYY");
+cityTitle.append(cityName + " (" + cityDate + ")");
 }
 
 //4. getCurrentWeather uses passed in city variable
