@@ -5,6 +5,10 @@ var openWeatherApiKey = "f22e49aad8438adbd22ac06770e91152";
 //display elements
 var cityTitle = document.querySelector("#city-title");
 var cityName;
+var weatherIcon = document.querySelector("#big-weather-icon");
+var cityTemp = document.querySelector("#city-temp");
+var cityWind = document.querySelector("#city-wind");
+var cityHumidity = document.querySelector("#city-humidity");
 
 //2. function triggered by  "submit" listener on the search form
 function handleSearchFormSubmit(event) {
@@ -26,7 +30,6 @@ function handleSearchFormSubmit(event) {
   getWeatherData(searchCity);
 
   //TODO - clear search city when next clicked searchCity
-
 }
 
 //3. city is passed to getWeatherData, to get city's current weather data
@@ -59,11 +62,41 @@ function displayOneCallWeatherData(data) {
   var oneCallText = data;
   console.log("OneCallText:", oneCallText);
 
-//TODO -ISSUE: returning local australian date, not city's timezone
-//attempt to use timezone not working
-var cityTimestamp = moment.unix(data.current.dt) + moment.unix(data.timezone_offset);
-var cityDate = moment.unix((cityTimestamp) / 1000).format("DD/MM/YYYY");
-cityTitle.append(cityName + " (" + cityDate + ")");
+  // calculate local date using timezone_offset
+  //get API city timezone_offset
+  var offset = data.timezone_offset;
+  var date = new Date();
+  var localTime = date.getTime();
+  var localOffset = date.getTimezoneOffset() * 60000;
+  var utc = localTime + localOffset;
+  var targetCityDate = utc + offset * 1000;
+  var convertedDate = new Date(targetCityDate);
+  convertedDate.toLocaleString();
+  cityDate = moment(convertedDate).format("DD/MM/YYYY");
+  //append cityName and cityDate to the h3 heading
+  cityTitle.append(cityName + " (" + cityDate + ")");
+
+  /// get weather icon
+  var cityWeatherIcon = data.current.weather[0].icon;
+  //create url for weather icon image
+  var weatherIconUrl =
+    "http://openweathermap.org/img/wn/" + cityWeatherIcon + "@2x.png";
+  weatherIcon.src = weatherIconUrl;
+
+  //get temperature
+  var temp = data.current.temp;
+  cityTemp.append("Temp: " + temp + "°C");
+
+  //get wind speed
+  var wind = data.current.wind_speed;
+  cityWind.append("Wind: " + wind + " km/h");
+
+  //get humidity
+  var humidity = data.current.humidity
+  cityHumidity.append("Humidity: " + humidity + " %");
+
+  //get UV index
+  
 }
 
 //4. getCurrentWeather uses passed in city variable
@@ -86,8 +119,10 @@ function getOneCallApi(lon, lat) {
     lat +
     "&lon=" +
     lon +
+    "&units=metric" +
     "&exclude={part}&appid=" +
     openWeatherApiKey;
+
   return callApi(queryOneCallString);
 }
 
