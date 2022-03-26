@@ -3,7 +3,7 @@ var searchFormEl = document.querySelector("#search-form");
 //API key
 var openWeatherApiKey = "f22e49aad8438adbd22ac06770e91152";
 //display elements
-var cityTitle = document.querySelector("#cityTitle");
+var cityTitle = document.querySelector("#city-title");
 
 //2. function triggered by  "submit" listener on the search form
 function handleSearchFormSubmit(event) {
@@ -13,7 +13,7 @@ function handleSearchFormSubmit(event) {
 
   //if nothing in the "search-input" text field, then show  error
   //TODO: make a pop up error
-  //TODO: manage when more than one city - add country field?
+  //TODO: manage when more than one city with same name - add country field?
   if (!searchCity) {
     console.error("Enter a city name");
     return;
@@ -23,6 +23,9 @@ function handleSearchFormSubmit(event) {
 
   //3. pass city to getWeatherData
   getWeatherData(searchCity);
+
+  //TODO - clear search city when next clicked searchCity
+
 }
 
 //3. city is passed to getWeatherData, to get city's current weather data
@@ -41,25 +44,28 @@ function getWeatherData(city) {
 }
 
 //6. display the city data
+var cityName;
+
 function displayCityData(data) {
-
-    var cityText = data;
-
-    console.log("City Text:", cityText)
-
-  console.log("city data:", data);
-  console.log("city name:", data.name);
-  var cityName = data.name;
-  console.log("cityName: ", cityName);
-
-  cityTitle.append(cityName);
-  
-} 
+  var cityText = data;
+  //TODO: show error when nothing retrieved - see week 6 mini-project
+  console.log("City Text:", cityText);
+  //display city name and date
+  cityName = data.name;
+}
 
 //6. display the one call weather data
 function displayOneCallWeatherData(data) {
-//TODO: uvindex
-  }
+  //TODO: uvindex
+  var oneCallText = data;
+  console.log("OneCallText:", oneCallText);
+
+  var cityTimestamp = moment.unix(parseInt(data.current.dt)) + moment.unix(parseInt(data.timezone_offset));
+  var cityDate = moment.unix(cityTimestamp / 1000).format("DD/MM/YYYY");
+  console.log("cityDate: ", cityDate);
+
+  cityTitle.append(cityName + " (" + cityDate + ")");
+}
 
 //4. getCurrentWeather uses passed in city variable
 //to create url string and pass url to 6.callApi
@@ -89,7 +95,7 @@ function getOneCallApi(lon, lat) {
 //callApi takes the url and gets the jason response
 function callApi(url) {
   return fetch(url).then(function (response) {
-    console.log(response);
+    // console.log(response);
     if (!response.ok) {
       throw response.json();
     }
