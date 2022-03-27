@@ -7,6 +7,7 @@ var pageRow = document.querySelector("#page-row");
 var searchColumn = document.querySelector("#search-column");
 var cityTitle = document.querySelector("#city-title");
 var cityName;
+var cityDate;
 var weatherIcon = document.querySelector("#big-weather-icon");
 var cityTemp = document.querySelector("#city-temp");
 var cityWind = document.querySelector("#city-wind");
@@ -14,7 +15,7 @@ var cityHumidity = document.querySelector("#city-humidity");
 var cityUVindex = document.querySelector("#city-UVindex");
 var UVindex = document.querySelector("#UVindex");
 
-//2. function triggered by  "submit" listener on the search form
+//function triggered by  "submit" listener on the search form
 function handleSearchFormSubmit(event) {
   console.log("event", event);
   console.log("event.target", event.target);
@@ -37,9 +38,9 @@ function handleSearchFormSubmit(event) {
     searchCity = document.querySelector("#search-city").value;
     console.log("submit searchCity", searchCity);
   } else if (event.type === "click") {
-      //from 6.a create the searched city button
-      searchCity = event.target.textContent;
-      console.log("click searchCity", searchCity);
+    //from 6.a create the searched city button
+    searchCity = event.target.textContent;
+    console.log("click searchCity", searchCity);
   }
   //if nothing in the "search-input" text field, then show  error
   //TODO: make a pop up error
@@ -53,42 +54,46 @@ function handleSearchFormSubmit(event) {
   //Update city name to all lowercase
   searchCity = searchCity.toLowerCase();
 
-  //3. pass city to getWeatherData
+  //pass city to getWeatherData
   getWeatherData(searchCity);
 
   //clear search city text when next submitted
   resetform();
 }
 
-//3. city is passed to getWeatherData, to get city's current weather data
-//4. get longitude and latitude coordinates using getCurrentWeather
-//5. to get longitute and latitude from getOneCallApi
+//city is passed to getWeatherData, to get city's current weather data
+//get longitude and latitude coordinates using getCurrentWeather
+//to get longitute and latitude from getOneCallApi
 function getWeatherData(city) {
-  //4. pass city to get lon and lat
+  //pass city to get lon and lat
   return getCurrentWeather(city).then(function (data) {
-    //5. then pass longitute and lattitude One Call API to get uvi data
+    //then pass longitute and lattitude One Call API to get uvi data
     displayCityData(data);
     return getOneCallApi(data.coord.lon, data.coord.lat).then(function (data) {
-      //6. then
+      //then
       displayOneCallWeatherData(data);
+        //call to function to display 5 day forecast
+        //pass oneCallApi data to display5DayForecast
+        //NB no requirement to display city name on forecast
+      display5DayForecast(data);
     });
   });
 }
 
-//6. display the city data
+//display the city API data
 function displayCityData(data) {
   //TO DO - hide card which will hold city data
   var cityText = data;
   //TODO: show error when nothing retrieved - see week 6 mini-project
   console.log("City Text:", cityText);
-  //Get dity name
+  //Get city name
   cityName = data.name;
 
-  //6.a. call function to create the searched city button
+  //call function to create the searched city button
   createSearchedCity(cityName);
 }
 
-//6.a. create the searched city button
+//create the searched city button and make it work
 function createSearchedCity(cityName) {
   //save city into searched city block
   //TODO: limit of number of searched cities listed
@@ -104,7 +109,7 @@ function createSearchedCity(cityName) {
   //   searchColumn.append(searchedCityDiv, searchedCityButton)
   searchColumn.append(searchedCityDiv, searchedCityButton);
 
-  // 6.b. create event listener for the searched city button
+  //create event listener for the searched city button
   searchedCityButton.addEventListener("click", handleSearchFormSubmit);
   //TODO: is this return needed?
   return searchedCityButton;
@@ -113,7 +118,7 @@ function createSearchedCity(cityName) {
   //TODO: cannot get searchedCity button same width as above column
 }
 
-//7. display the one call weather data
+//display the one call weather API data
 function displayOneCallWeatherData(data) {
   var oneCallText = data;
   console.log("OneCallText:", oneCallText);
@@ -139,7 +144,7 @@ function displayOneCallWeatherData(data) {
     "http://openweathermap.org/img/wn/" + cityWeatherIcon + "@2x.png";
   weatherIcon.src = weatherIconUrl;
 
-  //TO DO: if / else for when data not retrieved
+  //TO DO: if / else for when data not retrieved - is this necessary, appears the data entry value is 0 in the apis? To confirm
   //get temperature
   var temp = data.current.temp;
   cityTemp.append("Temp: " + temp + "°C");
@@ -174,7 +179,7 @@ function displayOneCallWeatherData(data) {
   }
 }
 
-//4. getCurrentWeather uses passed in city variable
+//getCurrentWeather uses passed in city variable
 //to create url string and pass url to 6.callApi
 function getCurrentWeather(city) {
   //TODO: error when city is not found
@@ -186,7 +191,58 @@ function getCurrentWeather(city) {
   return callApi(queryCityString);
 }
 
-//5. getOneCallApi takes the longitute and latitude retrieved by getCurrentWeather(city) call to callApi
+// display the 5-day forecast
+//TODO: reduce repetition
+//call forecast function at same time as calling displays of city data (teal-coloured card)
+//function called to getWeatherData(city) - done
+function display5DayForecast(data) {
+// confirm function called
+console.log("Hello display5DayForecast was called")
+//create forecast element selectors
+//forecast dark-grey card
+var forecastCard = document.createElement("div");
+forecastCard.classList.add("card", "custom-card", "text-white", "bg-primary", "mb-3")
+//forecast card body
+var forecastCardBody = document.createElement("div");
+forecastCardBody.classList.add("card-body");
+//forecast card date
+var cardDate = document.createElement("h5");
+cardDate.classList.add("card-title");
+//forecast weather icon
+var forecastIcon = document.createElement("image");
+// TODO: how to add src onto a created image element???
+// var forecastrIconUrl =
+//     "http://openweathermap.org/img/wn/" + cityWeatherIcon + ".png";
+//forecastIcon.src = forecastrIconUrl;
+//forecast temp
+var forecastTemp = document.createElement("p");
+forecastTemp.classList.add("card-text", "custom-card-text");
+//forecast wind
+var forecastWind = document.createElement("p");
+forecastWind.classList.add("card-text", "custom-card-text");
+//forecast humidity
+var forecasthumidity = document.createElement("p");
+forecasthumidity.classList.add("card-text", "custom-card-text");
+//create a loop that builds array of objects
+for (var i = 0; i < 5; i++) {
+    //"i" is the number of the day in the 5 day forecast
+    //use "i" to select the day from the "daily" array in OneCall data
+    //create day[i]
+        //get date from API
+        //OR (easier) do cityDate plus 1
+    //check can access cityDate
+    console.log("forecast cityDate", cityDate)
+    //append Api data to day
+        //e.g. day[i].temp = data.daily[i].temp
+    //assign data value to element selector to display
+        //e.g. forecastTemp.append = day[i].temp
+
+  }
+
+}
+
+
+//getOneCallApi takes the longitute and latitude retrieved by getCurrentWeather(city) 
 //and creates a url string that is passed to callApi
 function getOneCallApi(lon, lat) {
   var queryOneCallString =
@@ -212,12 +268,9 @@ function callApi(url) {
   });
 }
 
-//1. event listener for search for city submit
+//event listener for search for city submit
 //triggers handleSearchFormSubmit
 searchFormEl.addEventListener("submit", handleSearchFormSubmit);
-
-// // 6.a. create event listener for the searched city button
-// searchedCityButton.addEventListener("submit", handleSearchFormSubmit);
 
 //reset form (called by handleSearchFormSubmit)
 function resetform() {
