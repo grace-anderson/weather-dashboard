@@ -196,24 +196,10 @@ function getCurrentWeather(city) {
 
 // display the 5-day forecast
 //TODO: reduce repetition
-//call forecast function at same time as calling display of city data 
+//call forecast function at same time as calling display of city data
 //function added to getWeatherData(city)
 function display5DayForecast(data) {
-
-  //forecast weather icon
-  var forecastIcon = document.createElement("image");
-  // TODO: how to add src onto a created image element???
-  // var forecastrIconUrl =
-  //     "http://openweathermap.org/img/wn/" + cityWeatherIcon + ".png";
-  //forecastIcon.src = forecastrIconUrl;
   
-  //forecast wind
-  var forecastWind = document.createElement("p");
-  forecastWind.classList.add("card-text", "custom-card-text");
-  //forecast humidity
-  var forecasthumidity = document.createElement("p");
-  forecasthumidity.classList.add("card-text", "custom-card-text");
-
   //a loop to build array of card objects
   for (var i = 0; i < 5; i++) {
     //"i" is the number of the day in the 5 day forecast
@@ -231,12 +217,20 @@ function display5DayForecast(data) {
     //forecast card body
     var forecastCardBody = document.createElement("div");
     forecastCardBody.classList.add("card-body");
+    //forecast weather icon
+    var forecastIcon = document.createElement("img");
     //forecast card date
     var cardDate = document.createElement("h5");
     cardDate.classList.add("card-title");
     //forecast temp
     var forecastTemp = document.createElement("p");
     forecastTemp.classList.add("card-text", "custom-card-text");
+    //forecast wind
+    var forecastWind = document.createElement("p");
+    forecastWind.classList.add("card-text", "custom-card-text");
+    //forecast humidity
+    var forecastHumidity = document.createElement("p");
+    forecastHumidity.classList.add("card-text", "custom-card-text");
 
     //create date
     const date = new Date();
@@ -254,18 +248,40 @@ function display5DayForecast(data) {
     cardDate.textContent = dateString;
 
     // get forecast temp
-    var temp = data.daily[i].temp.day   
-    temp = "Temp: " + temp + "°C"
-    console.log("daily temp", temp);
+    var temp = data.daily[i].temp.day;
+    temp = "Temp: " + temp + "°C";
+    // console.log("daily temp", temp);
     // add temp to p element
     forecastTemp.textContent = temp;
 
-    // get forecast temp
-    
+    //get forecast img
+    var weatherIcon = data.daily[i].weather[0].icon;
+    var forecasteIconUrl = 
+    "http://openweathermap.org/img/wn/" + weatherIcon + "@2x.png";
+    forecastIcon.src = forecasteIconUrl;
+    // console.log("forecastrIconUrl" , forecastrIconUrl)
+
+     // get forecast wind
+     var wind = data.daily[i].wind_speed;
+     wind = "Wind: " + wind + "°C";
+    //  console.log("wind_speed ", wind);
+     // add temp to p element
+     forecastWind.textContent = wind;
+
+    // get forecast humidity
+    var humidity = data.daily[i].humidity;
+    humidity = "Humidity: " + humidity + " %";
+    // console.log("humidity ", humidity);
+    // add temp to p element
+    forecastHumidity.textContent = humidity;
 
     // append elements
-    forecastCardBody.appendChild(temp);
     forecastCardBody.appendChild(cardDate);
+    forecastCardBody.appendChild(forecastIcon);
+    forecastCardBody.appendChild(forecastIcon.src);
+    forecastCardBody.appendChild(forecastTemp);
+    forecastCardBody.appendChild(forecastWind);
+    forecastCardBody.appendChild(forecastHumidity);
     forecastCard.appendChild(forecastCardBody);
     forecastColumn.appendChild(forecastCard);
 
