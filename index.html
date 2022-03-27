@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="./assets/css/jass.css" />
     <link rel="stylesheet" href="./assets/css/style.css" />
   </head>
-  <!-- body ----------------------------------------------------------->
+  <!-- body -->
   <body class="text-center">
     <header class="container-fluid bg-primary zindex-fixed pt-3 pb-3 mb-2">
       <h1 class="text-white">Weather Dashboard</h1>
@@ -44,79 +44,85 @@
           </div>
         </div>
         <div class="col-sm-8 text-start">
-          <div class="row custom-row-left ">
-            <div id="header-card" class="card card-background custom-large-card">
+          <div class="row custom-row-left">
+            <div
+              id="header-card"
+              class="card card-background custom-large-card"
+            >
               <div class="card-body pt-3 pb-3">
                 <h3 id="city-title" class="card-title"></h3>
-                <image id="big-weather-icon" src="">
-                <p id="city-temp" class="card-text" ></p>
+                <image id="big-weather-icon" src="" />
+                <p id="city-temp" class="card-text"></p>
                 <p id="city-wind" class="card-text"></p>
                 <p id="city-humidity" class="card-text"></p>
-                <p id="city-UVindex" class="card-text" 
-                  >
+                <p id="city-UVindex" class="card-text">
                   <!-- <span id="UVindex"></span> -->
-              </p>
+                </p>
               </div>
             </div>
           </div>
           <div class="row custom-row-left">
             <h3>5-Day Forecast:</h3>
           </div>
-          <div class="row custom-row-left row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5">
-            <div
-              class="card custom-card text-white bg-primary mb-3"
-            >
+          <div
+            id="forecast-column"
+            class="row custom-row-left row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5"
+          >
+            <!-- <div class="card custom-card text-white bg-primary mb-3">
               <div class="card-body">
                 <h5 class="card-title">[Day 1's date]</h5>
                 <i>Weather Icon</i>
                 <p class="card-text custom-card-text">Temp: [temp data]</p>
                 <p class="card-text custom-card-text">Wind: [wind data]</p>
-                <p class="card-text custom-card-text">Humidity: [humidity data]</p>
+                <p class="card-text custom-card-text">
+                  Humidity: [humidity data]
+                </p>
               </div>
-            </div>
-            <div
-              class="card custom-card text-white bg-primary mb-3"
-            >
+            </div> -->
+            <!-- <div class="card custom-card text-white bg-primary mb-3">
               <div class="card-body">
                 <h5 class="card-title">[Day 2's date]</h5>
                 <i>Weather Icon</i>
                 <p class="card-text custom-card-text">Temp: [temp data]</p>
                 <p class="card-text custom-card-text">Wind: [wind data]</p>
-                <p class="card-text custom-card-text">Humidity: [humidity data]</p>
+                <p class="card-text custom-card-text">
+                  Humidity: [humidity data]
+                </p>
               </div>
-            </div>
-            <div
-              class="card custom-card text-white bg-primary mb-3"
-            >
+            </div> -->
+            <!-- <div class="card custom-card text-white bg-primary mb-3">
               <div class="card-body">
                 <h5 class="card-title">[Day 3's date]</h5>
                 <i>Weather Icon</i>
                 <p class="card-text custom-card-text">Temp: [temp data]</p>
                 <p class="card-text custom-card-text">Wind: [wind data]</p>
-                <p class="card-text custom-card-text">Humidity: [humidity data]</p>
+                <p class="card-text custom-card-text">
+                  Humidity: [humidity data]
+                </p>
               </div>
-            </div>
-            <div class="card custom-card text-white bg-primary mb-3"
-            >
+            </div> -->
+            <!-- <div class="card custom-card text-white bg-primary mb-3">
               <div class="card-body">
                 <h5 class="card-title">[Day 4's date]</h5>
                 <i>Weather Icon</i>
                 <p class="card-text custom-card-text">Temp: [temp data]</p>
                 <p class="card-text custom-card-text">Wind: [wind data]</p>
-                <p class="card-text custom-card-text">Humidity: [humidity data]</p>
+                <p class="card-text custom-card-text">
+                  Humidity: [humidity data]
+                </p>
               </div>
-            </div>
-            <div
-              class="card custom-card text-white bg-primary mb-3"
-            >
+            </div> -->
+            <!-- <div class="card custom-card text-white bg-primary mb-3">
               <div class="card-body">
                 <h5 class="card-title">[Day 5's date]</h5>
                 <i>Weather Icon</i>
                 <p class="card-text custom-card-text">Temp: [temp data]</p>
                 <p class="card-text custom-card-text">Wind: [wind data]</p>
-                <p class="card-text custom-card-text">Humidity: [humidity data]</p>
+                <p class="card-text custom-card-text">
+                  Humidity: [humidity data]
+                </p>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>

@@ -5,6 +5,7 @@ var openWeatherApiKey = "f22e49aad8438adbd22ac06770e91152";
 //display elements
 var pageRow = document.querySelector("#page-row");
 var searchColumn = document.querySelector("#search-column");
+var forecastColumn = document.querySelector("#forecast-column");
 var cityTitle = document.querySelector("#city-title");
 var cityName;
 var cityDate;
@@ -29,8 +30,8 @@ function handleSearchFormSubmit(event) {
   document.querySelector("#city-wind").innerHTML = "";
   document.querySelector("#city-humidity").innerHTML = "";
   document.querySelector("#city-UVindex").innerHTML = "";
-  //TODO - try updating the big teal card to display none 
-  //-> will need to reverse appending elements 
+  //TODO - try updating the big teal card to display none
+  //-> will need to reverse appending elements
 
   //TODO: create if/else statement so to assign variable from event of either Submit button (submit) or SavedCity button(click) to searchCity. Use event.target to find the savedCity label value
   var searchCity;
@@ -198,24 +199,23 @@ function getCurrentWeather(city) {
 //call forecast function at same time as calling displays of city data (teal-coloured card)
 //function called to getWeatherData(city) - done
 function display5DayForecast(data) {
-  // confirm function called
-  console.log("Hello display5DayForecast was called");
-  //create forecast element selectors
+  //create forecast elements
   //forecast dark-grey card
-  var forecastCard = document.createElement("div");
-  forecastCard.classList.add(
-    "card",
-    "custom-card",
-    "text-white",
-    "bg-primary",
-    "mb-3"
-  );
-  //forecast card body
-  var forecastCardBody = document.createElement("div");
-  forecastCardBody.classList.add("card-body");
-  //forecast card date
-  var cardDate = document.createElement("h5");
-  cardDate.classList.add("card-title");
+//   var forecastCard = document.createElement("div");
+//   forecastCard.classList.add(
+//     "card",
+//     "custom-card",
+//     "text-white",
+//     "bg-primary",
+//     "mb-3"
+//   );
+//   //forecast card body
+//   var forecastCardBody = document.createElement("div");
+//   forecastCardBody.classList.add("card-body");
+//   //forecast card date
+//   var cardDate = document.createElement("div");
+//   cardDate.classList.add("card-title");
+
   //forecast weather icon
   var forecastIcon = document.createElement("image");
   // TODO: how to add src onto a created image element???
@@ -231,25 +231,55 @@ function display5DayForecast(data) {
   //forecast humidity
   var forecasthumidity = document.createElement("p");
   forecasthumidity.classList.add("card-text", "custom-card-text");
-  //create a loop that builds array of objects
+
+  //a loop to build array of objects
   for (var i = 0; i < 5; i++) {
+    // declare elements
+    //create forecast elements
+  //forecast dark-grey card
+  var forecastCard = document.createElement("div");
+  forecastCard.classList.add(
+    "card",
+    "custom-card",
+    "text-white",
+    "bg-primary",
+    "mb-3"
+  );
+  //forecast card body
+  var forecastCardBody = document.createElement("div");
+  forecastCardBody.classList.add("card-body");
+  //forecast card date
+  var cardDate = document.createElement("h5");
+  cardDate.classList.add("card-title");
+
     //"i" is the number of the day in the 5 day forecast
+
+    //create date
+    const date = new Date();
+    date.setDate(date.getDate() + i + 1);
+    var dateString = JSON.stringify(date);
+    dateString = dateString.substring(1, 11);
+    dateString =
+      dateString.substring(8, 11) +
+      "/" +
+      dateString.substring(5, 7) +
+      "/" +
+      dateString.substring(0, 4);
+    console.log("dateString", dateString);
+    // add date to heading element
+    cardDate.textContent = dateString;
+
+    // append elements
+    forecastColumn.append(forecastCard, forecastCardBody, cardDate);
+
+    // append date to card elements
+    // and print out
+
+    //TO DO - variable for the day which will be used to get data
     //use "i" to select the day from the "daily" array in OneCall data
     //create day[i]
     //get date from API
     //OR (easier) do cityDate plus 1
-
-    //TO DO - variable for the day which will be used to get data
-
-    const date = new Date();
-    date.setDate(date.getDate() + i+1);
-    var dateString = JSON.stringify(date);
-    dateString = dateString.substring(0, 11);
-    console.log("date substring : " + dateString);
-    // next step = cobble together the date string to make it in the right order
-    // then append it to the card
-
-
   }
 }
 
