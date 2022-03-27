@@ -16,19 +16,23 @@ var UVindex = document.querySelector("#UVindex");
 
 //2. function triggered by  "submit" listener on the search form
 function handleSearchFormSubmit(event) {
+  console.log(event.target);
   event.preventDefault();
   //clear previous values in html element
   document.querySelector("#city-title").innerHTML = "";
-  //TODO: the weather icon is sticking and not clearing quickly
+  //TODO: the weather icon is sticking and not clearing until replaced
   document.querySelector("#big-weather-icon").innerHTML = "";
   document.querySelector("#city-temp").innerHTML = "";
   document.querySelector("#city-wind").innerHTML = "";
   document.querySelector("#city-humidity").innerHTML = "";
   document.querySelector("#city-UVindex").innerHTML = "";
 
+
+  //TODO: create if/else statement so to assign variable from event of either Submit button (submit) or SavedCity button(click) to searchCity. Use event.target to find the savedCity label value
+  
   //create element selector with city entered in "search-input" text field
   var searchCity = document.querySelector("#search-city").value;
-
+  console.log(searchCity);
   //if nothing in the "search-input" text field, then show  error
   //TODO: make a pop up error
   if (!searchCity) {
@@ -44,7 +48,7 @@ function handleSearchFormSubmit(event) {
   //3. pass city to getWeatherData
   getWeatherData(searchCity);
 
-  //clear search city when next clicked searchCity
+  //clear search city text when next submitted
   resetform();
 }
 
@@ -79,7 +83,7 @@ function displayCityData(data) {
 //6.a. create the searched city button
 function createSearchedCity(cityName) {
   //save city into searched city block
-  //TODO limit of number of searched cities listed
+  //TODO: limit of number of searched cities listed
   var searchedCityDiv = document.createElement("div");
   var searchedCityButton = document.createElement("button");
   searchedCityButton.classList.add(
@@ -92,8 +96,10 @@ function createSearchedCity(cityName) {
   //   searchColumn.append(searchedCityDiv, searchedCityButton)
   searchColumn.append(searchedCityDiv, searchedCityButton);
 
+  // 6.b. create event listener for the searched city button
+  searchedCityButton.addEventListener("click", handleSearchFormSubmit);
+//TODO: is this return needed?
   return searchedCityButton;
-  //TODO-getting "Enter a city name warning" when running this
 }
 
 //7. display the one call weather data
@@ -199,8 +205,8 @@ function callApi(url) {
 //triggers handleSearchFormSubmit
 searchFormEl.addEventListener("submit", handleSearchFormSubmit);
 
-// 6.a. create the searched city button
-searchCityButton.addEventListener("submit", handleSearchFormSubmit);
+// // 6.a. create event listener for the searched city button
+// searchedCityButton.addEventListener("submit", handleSearchFormSubmit);
 
 //reset form (called by handleSearchFormSubmit)
 function resetform() {
