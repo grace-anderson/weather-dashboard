@@ -235,7 +235,7 @@ function display5DayForecast(data) {
 
     //get date
     // calculate local date using API timezone_offset
-    //TODO: some timezones still not calculating correctly - needs more testing to understand issue
+    //TODO: some timezones not calculating correctly - needs more testing to understand issue (cities with issue: Dubai, Tel Aviv)
     var offset = data.timezone_offset;
     var date = new Date();
     var localTime = date.getTime();
