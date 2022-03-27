@@ -30,8 +30,10 @@ function handleSearchFormSubmit(event) {
   document.querySelector("#city-wind").innerHTML = "";
   document.querySelector("#city-humidity").innerHTML = "";
   document.querySelector("#city-UVindex").innerHTML = "";
-  //TODO - try updating the big teal card to display none
-  //-> will need to reverse appending elements
+  //TODO - update the big teal card to display none
+
+    //clear forecast content
+    clearForecastContent() 
 
   //TODO: create if/else statement so to assign variable from event of either Submit button (submit) or SavedCity button(click) to searchCity. Use event.target to find the savedCity label value
   var searchCity;
@@ -147,7 +149,7 @@ function displayOneCallWeatherData(data) {
     "http://openweathermap.org/img/wn/" + cityWeatherIcon + "@2x.png";
   weatherIcon.src = weatherIconUrl;
 
-  //TO DO: if / else for when data not retrieved - is this necessary, appears the data entry value is 0 in the apis? To confirm
+  //TO DO: if / else for when data not retrieved - is this necessary, appears the data value is 0 in the apis? 
   //get temperature
   var temp = data.current.temp;
   cityTemp.append("Temp: " + temp + "°C");
@@ -233,6 +235,7 @@ function display5DayForecast(data) {
     forecastHumidity.classList.add("card-text", "custom-card-text");
 
     //create date
+    //TODO: work out how to use cityDate here or calc date using offset (o/wise a day out for local timezone)
     const date = new Date();
     date.setDate(date.getDate() + i + 1);
     var dateString = JSON.stringify(date);
@@ -278,18 +281,14 @@ function display5DayForecast(data) {
     // append elements
     forecastCardBody.appendChild(cardDate);
     forecastCardBody.appendChild(forecastIcon);
-    forecastCardBody.appendChild(forecastIcon.src);
     forecastCardBody.appendChild(forecastTemp);
     forecastCardBody.appendChild(forecastWind);
     forecastCardBody.appendChild(forecastHumidity);
     forecastCard.appendChild(forecastCardBody);
     forecastColumn.appendChild(forecastCard);
 
-    //TO DO - variable for the day which will be used to get data
-    //use "i" to select the day from the "daily" array in OneCall data
-    //create day[i]
-    //get date from API
-    //OR (easier) do cityDate plus 1
+    //TODO - URGENT - how to clear this entire function when submit is next clicked
+
   }
 }
 
@@ -326,4 +325,9 @@ searchFormEl.addEventListener("submit", handleSearchFormSubmit);
 //reset form (called by handleSearchFormSubmit)
 function resetform() {
   document.getElementById("search-form").reset();
+}
+
+//clear content of forecast
+function clearForecastContent() {
+    document.querySelector("#forecast-column").innerHTML = "";
 }
