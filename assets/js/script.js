@@ -32,8 +32,8 @@ function handleSearchFormSubmit(event) {
   document.querySelector("#city-UVindex").innerHTML = "";
   //TODO - update the big teal card to display none
 
-    //clear forecast content
-    clearForecastContent() 
+  //clear forecast content
+  clearForecastContent();
 
   //TODO: create if/else statement so to assign variable from event of either Submit button (submit) or SavedCity button(click) to searchCity. Use event.target to find the savedCity label value
   var searchCity;
@@ -149,7 +149,7 @@ function displayOneCallWeatherData(data) {
     "http://openweathermap.org/img/wn/" + cityWeatherIcon + "@2x.png";
   weatherIcon.src = weatherIconUrl;
 
-  //TO DO: if / else for when data not retrieved - is this necessary, appears the data value is 0 in the apis? 
+  //TO DO: if / else for when data not retrieved - is this necessary, appears the data value is 0 in the apis?
   //get temperature
   var temp = data.current.temp;
   cityTemp.append("Temp: " + temp + "°C");
@@ -201,7 +201,6 @@ function getCurrentWeather(city) {
 //call forecast function at same time as calling display of city data
 //function added to getWeatherData(city)
 function display5DayForecast(data) {
-  
   //a loop to build array of card objects
   for (var i = 0; i < 5; i++) {
     //"i" is the number of the day in the 5 day forecast
@@ -234,21 +233,22 @@ function display5DayForecast(data) {
     var forecastHumidity = document.createElement("p");
     forecastHumidity.classList.add("card-text", "custom-card-text");
 
-    //create date
-    //TODO: work out how to use cityDate here or calc date using offset (o/wise a day out for local timezone)
-    const date = new Date();
-    date.setDate(date.getDate() + i + 1);
-    var dateString = JSON.stringify(date);
-    dateString = dateString.substring(1, 11);
-    dateString =
-      dateString.substring(8, 11) +
-      "/" +
-      dateString.substring(5, 7) +
-      "/" +
-      dateString.substring(0, 4);
-    // console.log("dateString", dateString);
+    //get date
+    // calculate local date using API timezone_offset
+    //TODO: some timezones still not calculating correctly - needs more testing to understand issue
+    var offset = data.timezone_offset;
+    var date = new Date();
+    var localTime = date.getTime();
+    var localOffset = date.getTimezoneOffset() * 60000;
+    var utc = localTime + localOffset;
+    var targetCityDate = utc + offset * 1000;
+    var convertedDate = new Date(targetCityDate);
+    convertedDate.setDate(date.getDate() + i);
+    convertedDate.toLocaleString();
+    var forecastDate = moment(convertedDate).format("DD/MM/YYYY");
+    // console.log("forecastDate", forecastDate);
     // add date to heading element
-    cardDate.textContent = dateString;
+    cardDate.textContent = forecastDate;
 
     // get forecast temp
     var temp = data.daily[i].temp.day;
@@ -259,17 +259,17 @@ function display5DayForecast(data) {
 
     //get forecast img
     var weatherIcon = data.daily[i].weather[0].icon;
-    var forecasteIconUrl = 
-    "http://openweathermap.org/img/wn/" + weatherIcon + "@2x.png";
+    var forecasteIconUrl =
+      "http://openweathermap.org/img/wn/" + weatherIcon + "@2x.png";
     forecastIcon.src = forecasteIconUrl;
     // console.log("forecastrIconUrl" , forecastrIconUrl)
 
-     // get forecast wind
-     var wind = data.daily[i].wind_speed;
-     wind = "Wind: " + wind + "°C";
+    // get forecast wind
+    var wind = data.daily[i].wind_speed;
+    wind = "Wind: " + wind + "°C";
     //  console.log("wind_speed ", wind);
-     // add temp to p element
-     forecastWind.textContent = wind;
+    // add temp to p element
+    forecastWind.textContent = wind;
 
     // get forecast humidity
     var humidity = data.daily[i].humidity;
@@ -286,8 +286,6 @@ function display5DayForecast(data) {
     forecastCardBody.appendChild(forecastHumidity);
     forecastCard.appendChild(forecastCardBody);
     forecastColumn.appendChild(forecastCard);
-
-    //TODO - URGENT - how to clear this entire function when submit is next clicked
 
   }
 }
@@ -329,5 +327,5 @@ function resetform() {
 
 //clear content of forecast
 function clearForecastContent() {
-    document.querySelector("#forecast-column").innerHTML = "";
+  document.querySelector("#forecast-column").innerHTML = "";
 }
