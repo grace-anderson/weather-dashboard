@@ -206,9 +206,7 @@ function display5DayForecast(data) {
   // var forecastrIconUrl =
   //     "http://openweathermap.org/img/wn/" + cityWeatherIcon + ".png";
   //forecastIcon.src = forecastrIconUrl;
-  //forecast temp
-  var forecastTemp = document.createElement("p");
-  forecastTemp.classList.add("card-text", "custom-card-text");
+  
   //forecast wind
   var forecastWind = document.createElement("p");
   forecastWind.classList.add("card-text", "custom-card-text");
@@ -261,6 +259,9 @@ function display5DayForecast(data) {
     console.log("daily temp", temp);
     // add temp to p element
     forecastTemp.textContent = temp;
+
+    // get forecast temp
+    
 
     // append elements
     forecastCardBody.appendChild(temp);
