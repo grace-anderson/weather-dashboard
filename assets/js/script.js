@@ -29,6 +29,8 @@ function handleSearchFormSubmit(event) {
   document.querySelector("#city-wind").innerHTML = "";
   document.querySelector("#city-humidity").innerHTML = "";
   document.querySelector("#city-UVindex").innerHTML = "";
+  //TODO - try updating the big teal card to display none 
+  //-> will need to reverse appending elements 
 
   //TODO: create if/else statement so to assign variable from event of either Submit button (submit) or SavedCity button(click) to searchCity. Use event.target to find the savedCity label value
   var searchCity;
@@ -72,9 +74,9 @@ function getWeatherData(city) {
     return getOneCallApi(data.coord.lon, data.coord.lat).then(function (data) {
       //then
       displayOneCallWeatherData(data);
-        //call to function to display 5 day forecast
-        //pass oneCallApi data to display5DayForecast
-        //NB no requirement to display city name on forecast
+      //call to function to display 5 day forecast
+      //pass oneCallApi data to display5DayForecast
+      //NB no requirement to display city name on forecast
       display5DayForecast(data);
     });
   });
@@ -196,53 +198,62 @@ function getCurrentWeather(city) {
 //call forecast function at same time as calling displays of city data (teal-coloured card)
 //function called to getWeatherData(city) - done
 function display5DayForecast(data) {
-// confirm function called
-console.log("Hello display5DayForecast was called")
-//create forecast element selectors
-//forecast dark-grey card
-var forecastCard = document.createElement("div");
-forecastCard.classList.add("card", "custom-card", "text-white", "bg-primary", "mb-3")
-//forecast card body
-var forecastCardBody = document.createElement("div");
-forecastCardBody.classList.add("card-body");
-//forecast card date
-var cardDate = document.createElement("h5");
-cardDate.classList.add("card-title");
-//forecast weather icon
-var forecastIcon = document.createElement("image");
-// TODO: how to add src onto a created image element???
-// var forecastrIconUrl =
-//     "http://openweathermap.org/img/wn/" + cityWeatherIcon + ".png";
-//forecastIcon.src = forecastrIconUrl;
-//forecast temp
-var forecastTemp = document.createElement("p");
-forecastTemp.classList.add("card-text", "custom-card-text");
-//forecast wind
-var forecastWind = document.createElement("p");
-forecastWind.classList.add("card-text", "custom-card-text");
-//forecast humidity
-var forecasthumidity = document.createElement("p");
-forecasthumidity.classList.add("card-text", "custom-card-text");
-//create a loop that builds array of objects
-for (var i = 0; i < 5; i++) {
+  // confirm function called
+  console.log("Hello display5DayForecast was called");
+  //create forecast element selectors
+  //forecast dark-grey card
+  var forecastCard = document.createElement("div");
+  forecastCard.classList.add(
+    "card",
+    "custom-card",
+    "text-white",
+    "bg-primary",
+    "mb-3"
+  );
+  //forecast card body
+  var forecastCardBody = document.createElement("div");
+  forecastCardBody.classList.add("card-body");
+  //forecast card date
+  var cardDate = document.createElement("h5");
+  cardDate.classList.add("card-title");
+  //forecast weather icon
+  var forecastIcon = document.createElement("image");
+  // TODO: how to add src onto a created image element???
+  // var forecastrIconUrl =
+  //     "http://openweathermap.org/img/wn/" + cityWeatherIcon + ".png";
+  //forecastIcon.src = forecastrIconUrl;
+  //forecast temp
+  var forecastTemp = document.createElement("p");
+  forecastTemp.classList.add("card-text", "custom-card-text");
+  //forecast wind
+  var forecastWind = document.createElement("p");
+  forecastWind.classList.add("card-text", "custom-card-text");
+  //forecast humidity
+  var forecasthumidity = document.createElement("p");
+  forecasthumidity.classList.add("card-text", "custom-card-text");
+  //create a loop that builds array of objects
+  for (var i = 0; i < 5; i++) {
     //"i" is the number of the day in the 5 day forecast
     //use "i" to select the day from the "daily" array in OneCall data
     //create day[i]
-        //get date from API
-        //OR (easier) do cityDate plus 1
-    //check can access cityDate
-    console.log("forecast cityDate", cityDate)
-    //append Api data to day
-        //e.g. day[i].temp = data.daily[i].temp
-    //assign data value to element selector to display
-        //e.g. forecastTemp.append = day[i].temp
+    //get date from API
+    //OR (easier) do cityDate plus 1
+
+    //TO DO - variable for the day which will be used to get data
+
+    const date = new Date();
+    date.setDate(date.getDate() + i+1);
+    var dateString = JSON.stringify(date);
+    dateString = dateString.substring(0, 11);
+    console.log("date substring : " + dateString);
+    // next step = cobble together the date string to make it in the right order
+    // then append it to the card
+
 
   }
-
 }
 
-
-//getOneCallApi takes the longitute and latitude retrieved by getCurrentWeather(city) 
+//getOneCallApi takes the longitute and latitude retrieved by getCurrentWeather(city)
 //and creates a url string that is passed to callApi
 function getOneCallApi(lon, lat) {
   var queryOneCallString =
