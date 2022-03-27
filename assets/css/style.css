@@ -18,6 +18,10 @@ h6 {
   font-weight: 500;
 }
 
+.card {
+  white-space: nowrap;
+}
+
 .custom-container {
   width: 90%;
   max-width: 1500px;

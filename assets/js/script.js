@@ -196,25 +196,9 @@ function getCurrentWeather(city) {
 
 // display the 5-day forecast
 //TODO: reduce repetition
-//call forecast function at same time as calling displays of city data (teal-coloured card)
-//function called to getWeatherData(city) - done
+//call forecast function at same time as calling display of city data 
+//function added to getWeatherData(city)
 function display5DayForecast(data) {
-  //create forecast elements
-  //forecast dark-grey card
-//   var forecastCard = document.createElement("div");
-//   forecastCard.classList.add(
-//     "card",
-//     "custom-card",
-//     "text-white",
-//     "bg-primary",
-//     "mb-3"
-//   );
-//   //forecast card body
-//   var forecastCardBody = document.createElement("div");
-//   forecastCardBody.classList.add("card-body");
-//   //forecast card date
-//   var cardDate = document.createElement("div");
-//   cardDate.classList.add("card-title");
 
   //forecast weather icon
   var forecastIcon = document.createElement("image");
@@ -232,27 +216,29 @@ function display5DayForecast(data) {
   var forecasthumidity = document.createElement("p");
   forecasthumidity.classList.add("card-text", "custom-card-text");
 
-  //a loop to build array of objects
+  //a loop to build array of card objects
   for (var i = 0; i < 5; i++) {
+    //"i" is the number of the day in the 5 day forecast
     // declare elements
     //create forecast elements
-  //forecast dark-grey card
-  var forecastCard = document.createElement("div");
-  forecastCard.classList.add(
-    "card",
-    "custom-card",
-    "text-white",
-    "bg-primary",
-    "mb-3"
-  );
-  //forecast card body
-  var forecastCardBody = document.createElement("div");
-  forecastCardBody.classList.add("card-body");
-  //forecast card date
-  var cardDate = document.createElement("h5");
-  cardDate.classList.add("card-title");
-
-    //"i" is the number of the day in the 5 day forecast
+    //forecast dark-grey card
+    var forecastCard = document.createElement("div");
+    forecastCard.classList.add(
+      "card",
+      "custom-card",
+      "text-white",
+      "bg-primary",
+      "mb-3"
+    );
+    //forecast card body
+    var forecastCardBody = document.createElement("div");
+    forecastCardBody.classList.add("card-body");
+    //forecast card date
+    var cardDate = document.createElement("h5");
+    cardDate.classList.add("card-title");
+    //forecast temp
+    var forecastTemp = document.createElement("p");
+    forecastTemp.classList.add("card-text", "custom-card-text");
 
     //create date
     const date = new Date();
@@ -265,15 +251,22 @@ function display5DayForecast(data) {
       dateString.substring(5, 7) +
       "/" +
       dateString.substring(0, 4);
-    console.log("dateString", dateString);
+    // console.log("dateString", dateString);
     // add date to heading element
     cardDate.textContent = dateString;
 
-    // append elements
-    forecastColumn.append(forecastCard, forecastCardBody, cardDate);
+    // get forecast temp
+    var temp = data.daily[i].temp.day   
+    temp = "Temp: " + temp + "°C"
+    console.log("daily temp", temp);
+    // add temp to p element
+    forecastTemp.textContent = temp;
 
-    // append date to card elements
-    // and print out
+    // append elements
+    forecastCardBody.appendChild(temp);
+    forecastCardBody.appendChild(cardDate);
+    forecastCard.appendChild(forecastCardBody);
+    forecastColumn.appendChild(forecastCard);
 
     //TO DO - variable for the day which will be used to get data
     //use "i" to select the day from the "daily" array in OneCall data
