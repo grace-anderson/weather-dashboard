@@ -16,7 +16,9 @@ var UVindex = document.querySelector("#UVindex");
 
 //2. function triggered by  "submit" listener on the search form
 function handleSearchFormSubmit(event) {
-  console.log(event.target);
+  console.log("event", event);
+  console.log("event.target", event.target);
+  console.log("event.type", event.type);
   event.preventDefault();
   //clear previous values in html element
   document.querySelector("#city-title").innerHTML = "";
@@ -27,12 +29,18 @@ function handleSearchFormSubmit(event) {
   document.querySelector("#city-humidity").innerHTML = "";
   document.querySelector("#city-UVindex").innerHTML = "";
 
-
   //TODO: create if/else statement so to assign variable from event of either Submit button (submit) or SavedCity button(click) to searchCity. Use event.target to find the savedCity label value
-  
-  //create element selector with city entered in "search-input" text field
-  var searchCity = document.querySelector("#search-city").value;
-  console.log(searchCity);
+  var searchCity;
+
+  if (event.type === "submit") {
+    //create element selector with city entered in "search-input" text field
+    searchCity = document.querySelector("#search-city").value;
+    console.log("submit searchCity", searchCity);
+  } else if (event.type === "click") {
+      //from 6.a create the searched city button
+      searchCity = event.target.textContent;
+      console.log("click searchCity", searchCity);
+  }
   //if nothing in the "search-input" text field, then show  error
   //TODO: make a pop up error
   if (!searchCity) {
@@ -98,8 +106,11 @@ function createSearchedCity(cityName) {
 
   // 6.b. create event listener for the searched city button
   searchedCityButton.addEventListener("click", handleSearchFormSubmit);
-//TODO: is this return needed?
+  //TODO: is this return needed?
   return searchedCityButton;
+  //TODO: order cities by descending order
+  //TODO: stop cities duplicating
+  //TODO: cannot get searchedCity button same width as above column
 }
 
 //7. display the one call weather data
@@ -149,7 +160,7 @@ function displayOneCallWeatherData(data) {
   cityUVindex.appendChild(uviDisplay);
   uviDisplay.textContent = uvi;
 
-  //TODO: update to normal classList.add format
+  //TODO: update to normal classList.add format (below syntax was from trying to fix bg colour-fixed now in CSS)
   if (parseInt(uvi) < 3) {
     uviDisplay.className += "btn btn-success disable-hover";
   } else if (parseInt(uvi) >= 3 && parseInt(uvi) < 6) {
