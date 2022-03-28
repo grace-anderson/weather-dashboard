@@ -116,11 +116,13 @@ function createSearchedCity(cityName) {
 
   //create event listener for the searched city button
   searchedCityButton.addEventListener("click", handleSearchFormSubmit);
-  //TODO: is this return needed?
-  return searchedCityButton;
+    //TODO - IMPORTANT - Save cities in local storage
   //TODO: order cities by descending order
   //TODO: stop cities duplicating
   //TODO: cannot get searchedCity button same width as above column
+
+  //TODO: is this return needed?
+  return searchedCityButton;
 }
 
 //display the one call weather API data
@@ -235,7 +237,7 @@ function display5DayForecast(data) {
 
     //get date
     // calculate local date using API timezone_offset
-    //TODO: some timezones not calculating correctly - needs more testing to understand issue (cities with issue: Dubai, Tel Aviv)
+    //ISSUE: some dates are not correct, e.g. current and first forecast date are same
     var offset = data.timezone_offset;
     var date = new Date();
     var localTime = date.getTime();
@@ -243,7 +245,7 @@ function display5DayForecast(data) {
     var utc = localTime + localOffset;
     var targetCityDate = utc + offset * 1000;
     var convertedDate = new Date(targetCityDate);
-    convertedDate.setDate(date.getDate() + i);
+    convertedDate.setDate(date.getDate() + i + 1);
     convertedDate.toLocaleString();
     var forecastDate = moment(convertedDate).format("DD/MM/YYYY");
     // console.log("forecastDate", forecastDate);
@@ -286,7 +288,6 @@ function display5DayForecast(data) {
     forecastCardBody.appendChild(forecastHumidity);
     forecastCard.appendChild(forecastCardBody);
     forecastColumn.appendChild(forecastCard);
-
   }
 }
 
