@@ -16,6 +16,8 @@ var cityHumidity = document.querySelector("#city-humidity");
 var cityUVindex = document.querySelector("#city-UVindex");
 var UVindex = document.querySelector("#UVindex");
 
+var cityHistory = [];
+
 //function triggered by  "submit" listener on the search form
 function handleSearchFormSubmit(event) {
   console.log("event", event);
@@ -42,8 +44,14 @@ function handleSearchFormSubmit(event) {
     //create element selector with city entered in "search-input" text field
     searchCity = document.querySelector("#search-city").value;
     console.log("submit searchCity", searchCity);
+    
+    //add city to local storage
+    searchCity.toLowerCase();
+    titleCase(searchCity);
+    cityHistory.push(searchCity);
+    localStorage.setItem("city-history", JSON.stringify(cityHistory));
   } else if (event.type === "click") {
-    //from 6.a create the searched city button
+    //from create the searched city button
     searchCity = event.target.textContent;
     console.log("click searchCity", searchCity);
   }
@@ -116,10 +124,10 @@ function createSearchedCity(cityName) {
 
   //create event listener for the searched city button
   searchedCityButton.addEventListener("click", handleSearchFormSubmit);
-    //TODO - IMPORTANT - Save cities in local storage
+
+  //TODO - IMPORTANT - Save cities in local storage
   //TODO: order cities by descending order
   //TODO: stop cities duplicating
-  //TODO: cannot get searchedCity button same width as above column
 
   //TODO: is this return needed?
   return searchedCityButton;
@@ -237,7 +245,7 @@ function display5DayForecast(data) {
 
     //get date
     // calculate local date using API timezone_offset
-    //ISSUE: some dates are not correct, e.g. current and first forecast date are same
+    //ISSUE: some dates are not correct, e.g. current and first forecast date are same OR two days apart
     var offset = data.timezone_offset;
     var date = new Date();
     var localTime = date.getTime();
@@ -245,7 +253,13 @@ function display5DayForecast(data) {
     var utc = localTime + localOffset;
     var targetCityDate = utc + offset * 1000;
     var convertedDate = new Date(targetCityDate);
-    convertedDate.setDate(date.getDate() + i + 1);
+
+    if (convertedDate < moment()) {
+      convertedDate.setDate(date.getDate() + i);
+    } else {
+      convertedDate.setDate(date.getDate() + i + 1);
+    }
+
     convertedDate.toLocaleString();
     var forecastDate = moment(convertedDate).format("DD/MM/YYYY");
     // console.log("forecastDate", forecastDate);
@@ -330,3 +344,39 @@ function resetform() {
 function clearForecastContent() {
   document.querySelector("#forecast-column").innerHTML = "";
 }
+
+//update to title case
+function titleCase(str) {
+  var result = [];
+
+  var words = str.split(" ");
+
+  for (var i = 0; i < words.length; i++) {
+    var word = words[i].split("");
+
+    word[0] = word[0].toUpperCase();
+
+    result.push(word.join(""));
+  }
+
+  return result.join(" ");
+}
+
+//LOCAL STORAGE NOT WORKING
+// retrieve stored cities when the page loads
+function init() {
+  var storedCities = JSON.parse(localStorage.getItem("city-history"));
+
+  if (storedCities !== null) {
+    cityHistory = storedCities;
+  }
+
+  for (var i = 0; i < cityHistory.length; i++) {
+    var city = cityHistory[i];
+
+    // console.log("init city", city);
+    createSearchedCity(city);
+  }
+}
+
+init();
