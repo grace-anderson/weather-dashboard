@@ -47,7 +47,7 @@
           <div class="row custom-row-left">
             <div
               id="header-card"
-              class="card card-background custom-large-card"
+              class="card card-background custom-large-card hideCard"
             >
               <div class="card-body pt-3 pb-3">
                 <h3 id="city-title" class="card-title"></h3>
@@ -62,7 +62,8 @@
             </div>
           </div>
           <div class="row custom-row-left">
-            <h3>5-Day Forecast:</h3>
+            <div id="five-day">
+            </div>
           </div>
           <div
             id="forecast-column"
@@ -80,6 +81,8 @@
     ></script>
     <!-- moment -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <!-- sweet alert -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <!-- local js -->
     <script src="./assets/js/script.js"></script>
   </body>

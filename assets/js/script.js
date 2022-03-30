@@ -3,6 +3,7 @@ var searchFormEl = document.querySelector("#search-form");
 //API key
 var openWeatherApiKey = "f22e49aad8438adbd22ac06770e91152";
 //display elements
+var bigCard = document.querySelector("#header-card");
 var pageRow = document.querySelector("#page-row");
 var searchColumn = document.querySelector("#search-column");
 var forecastColumn = document.querySelector("#forecast-column");
@@ -15,8 +16,12 @@ var cityWind = document.querySelector("#city-wind");
 var cityHumidity = document.querySelector("#city-humidity");
 var cityUVindex = document.querySelector("#city-UVindex");
 var UVindex = document.querySelector("#UVindex");
+var fiveDayHeading = document.querySelector("#five-day");
+fiveDayHeading.classList.add("hideFiveDayHeading");
 
 var cityHistory = [];
+//limit of five cities saved in local storage
+var historyLimit = 5;
 
 //function triggered by  "submit" listener on the search form
 function handleSearchFormSubmit(event) {
@@ -25,6 +30,7 @@ function handleSearchFormSubmit(event) {
   console.log("event.type", event.type);
   event.preventDefault();
   //clear previous values in html element
+  bigCard.classList.add("hideCard");
   document.querySelector("#city-title").innerHTML = "";
   //TODO: the weather icon is sticking and not clearing until replaced
   document.querySelector("#big-weather-icon").innerHTML = "";
@@ -38,17 +44,46 @@ function handleSearchFormSubmit(event) {
   clearForecastContent();
 
   //TODO: create if/else statement so to assign variable from event of either Submit button (submit) or SavedCity button(click) to searchCity. Use event.target to find the savedCity label value
-  var searchCity;
+  var searchCity = document.querySelector("#search-city").value;
 
   if (event.type === "submit") {
     //create element selector with city entered in "search-input" text field
-    searchCity = document.querySelector("#search-city").value;
+
     console.log("submit searchCity", searchCity);
 
     //add city to local storage
     searchCity.toLowerCase();
     titleCase(searchCity);
-    cityHistory.push(searchCity);
+
+    // if search term already exist in history
+    var cityIsThereAlready = cityHistory.includes(searchCity.toLowerCase());
+    if (cityIsThereAlready) {
+      // move thecity position to the end
+      // find the index of target in array
+      var cityIndex = cityHistory.findIndex(function (city) {
+        return city.toLowerCase() === searchCity.toLowerCase();
+      });
+      if (cityIndex === -1) {
+        swal("City not found", "Try searching again", "error");
+        fiveDayHeading.classList.add("hideFiveDayHeading");
+        throw "City not found";
+      }
+
+      // extract the item out
+      var extracted = cityHistory.splice(cityIndex, 1)[0];
+
+      // insert the extracted to the end of the array
+      // cityHistory.push(extracted);
+    }
+
+    cityHistory.push(searchCity.toLowerCase());
+
+    // if city history is === limit
+    if (cityHistory.length >= historyLimit) {
+      // we will keep the last 5 items in city history
+      cityHistory = cityHistory.slice(-historyLimit);
+    }
+
     localStorage.setItem("city-history", JSON.stringify(cityHistory));
   } else if (event.type === "click") {
     //from create the searched city button
@@ -56,12 +91,14 @@ function handleSearchFormSubmit(event) {
     console.log("click searchCity", searchCity);
   }
   //if nothing in the "search-input" text field, then show  error
-  //TODO: make a pop up error
-  //TODO: issue is will save any word into local storage - i.e. words that are not cities
+
   if (!searchCity) {
     console.error("Enter a city name");
     return;
   }
+
+  //TODO: make a pop up error
+  //TODO: issue is will save any word into local storage - i.e. words that are not cities
 
   //TODO: manage when more than one city with same name - add country field?
 
@@ -126,10 +163,9 @@ function createSearchedCity(cityName) {
   //create event listener for the searched city button
   searchedCityButton.addEventListener("click", handleSearchFormSubmit);
 
-  //TODO - IMPORTANT - Save cities in local storage
   //TODO: order cities by descending order
   //TODO: stop cities duplicating
-//TODO: cities being returned in lowercase not mixed case
+  //TODO: cities being returned in lowercase not mixed case
   //TODO: is this return needed?
   return searchedCityButton;
 }
@@ -161,6 +197,9 @@ function displayOneCallWeatherData(data) {
   weatherIcon.src = weatherIconUrl;
 
   //TO DO: if / else for when data not retrieved - is this necessary, appears the data value is 0 in the apis?
+  //display big blue card
+  bigCard.classList.remove("hideCard");
+
   //get temperature
   var temp = data.current.temp;
   cityTemp.append("Temp: " + temp + "°C");
@@ -255,8 +294,8 @@ function display5DayForecast(data) {
     var targetCityDate = utc + offset * 1000;
     var convertedDate = new Date(targetCityDate);
 
-    if (convertedDate < moment()) {
-      convertedDate.setDate(date.getDate() + i);
+    if (convertedDate > moment()) {
+      convertedDate.setDate(date.getDate() + i + 1);
     } else {
       convertedDate.setDate(date.getDate() + i + 1);
     }
@@ -303,7 +342,16 @@ function display5DayForecast(data) {
     forecastCardBody.appendChild(forecastHumidity);
     forecastCard.appendChild(forecastCardBody);
     forecastColumn.appendChild(forecastCard);
+
   }
+
+  showFiveDayForecastHeading()
+
+}
+
+function showFiveDayForecastHeading() {
+  fiveDayHeading.classList.remove("hideFiveDayHeading");
+  fiveDayHeading.innerHTML = "<h3>" + "Five Day Forecast:" + "</h>";
 }
 
 //getOneCallApi takes the longitute and latitude retrieved by getCurrentWeather(city)
@@ -326,6 +374,9 @@ function callApi(url) {
   return fetch(url).then(function (response) {
     // console.log(response);
     if (!response.ok) {
+      swal("City not found", "Try searching again", "error");
+      fiveDayHeading.classList.add("hideFiveDayHeading");
+      console.log("City not found");
       throw response.json();
     }
     return response.json();
@@ -381,3 +432,4 @@ function init() {
 }
 
 init();
+

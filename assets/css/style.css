@@ -18,8 +18,20 @@ h6 {
   font-weight: 500;
 }
 
+.hideCard {
+  display: none;
+  transition: 1s ease-in-out;
+}
+
+.hideFiveDayHeading {
+  display: none;
+  transition: 1s ease-in-out;
+}
+
+
 .card {
   white-space: nowrap;
+  transition: 1s ease-in-out;
 }
 
 .custom-container {
@@ -54,7 +66,6 @@ h6 {
 
 .custom-card {
   margin-left: 0.6rem;
-  /* padding-right: 0.4rem; */
   padding-left: 0.4rem;
 }
 
