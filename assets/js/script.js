@@ -118,7 +118,7 @@ function createSearchedCity(cityName) {
     "btn-secondary",
     "custom-btn-secondary"
   );
-  searchedCityButton.innerHTML = "<h6>" + cityName + "</h6>";
+  searchedCityButton.innerHTML = "<h6>" + titleCase(cityName) + "</h6>";
 
   //   searchColumn.append(searchedCityDiv, searchedCityButton)
   searchColumn.append(searchedCityDiv, searchedCityButton);
@@ -129,7 +129,7 @@ function createSearchedCity(cityName) {
   //TODO - IMPORTANT - Save cities in local storage
   //TODO: order cities by descending order
   //TODO: stop cities duplicating
-
+//TODO: cities being returned in lowercase not mixed case
   //TODO: is this return needed?
   return searchedCityButton;
 }
