@@ -20,18 +20,14 @@ h6 {
 
 .hideCard {
   display: none;
-  transition: 1s ease-in-out;
 }
 
 .hideFiveDayHeading {
   display: none;
-  transition: 1s ease-in-out;
 }
-
 
 .card {
   white-space: nowrap;
-  transition: 1s ease-in-out;
 }
 
 .custom-container {

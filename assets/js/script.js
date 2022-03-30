@@ -25,9 +25,6 @@ var historyLimit = 5;
 
 //function triggered by  "submit" listener on the search form
 function handleSearchFormSubmit(event) {
-  console.log("event", event);
-  console.log("event.target", event.target);
-  console.log("event.type", event.type);
   event.preventDefault();
   //clear previous values in html element
   bigCard.classList.add("hideCard");
@@ -43,17 +40,18 @@ function handleSearchFormSubmit(event) {
   //clear forecast content
   clearForecastContent();
 
-  //TODO: create if/else statement so to assign variable from event of either Submit button (submit) or SavedCity button(click) to searchCity. Use event.target to find the savedCity label value
   var searchCity = document.querySelector("#search-city").value;
 
   if (event.type === "submit") {
-    //create element selector with city entered in "search-input" text field
 
-    console.log("submit searchCity", searchCity);
-
-    //add city to local storage
-    searchCity.toLowerCase();
-    titleCase(searchCity);
+    if (searchCity === "") {
+      swal("Enter a city name", "Try again", "error");
+      return;
+    } else {
+      //add city to local storage
+      searchCity.toLowerCase();
+      titleCase(searchCity);
+    }
 
     // if search term already exist in history
     var cityIsThereAlready = cityHistory.includes(searchCity.toLowerCase());
@@ -68,10 +66,8 @@ function handleSearchFormSubmit(event) {
         fiveDayHeading.classList.add("hideFiveDayHeading");
         throw "City not found";
       }
-
       // extract the item out
       var extracted = cityHistory.splice(cityIndex, 1)[0];
-
       // insert the extracted to the end of the array
       // cityHistory.push(extracted);
     }
@@ -88,26 +84,20 @@ function handleSearchFormSubmit(event) {
   } else if (event.type === "click") {
     //from create the searched city button
     searchCity = event.target.textContent;
-    console.log("click searchCity", searchCity);
   }
   //if nothing in the "search-input" text field, then show  error
 
   if (!searchCity) {
+    swal("Enter a city name", "Try again", "error");
     console.error("Enter a city name");
     return;
   }
 
-  //TODO: make a pop up error
-  //TODO: issue is will save any word into local storage - i.e. words that are not cities
-
   //TODO: manage when more than one city with same name - add country field?
-
   //Update city name to all lowercase
   searchCity = searchCity.toLowerCase();
-
   //pass city to getWeatherData
   getWeatherData(searchCity);
-
   //clear search city text when next submitted
   resetform();
 }
@@ -133,13 +123,10 @@ function getWeatherData(city) {
 
 //display the city API data
 function displayCityData(data) {
-  //TO DO - hide card which will hold city data
+
   var cityText = data;
-  //TODO: show error when nothing retrieved - see week 6 mini-project
-  console.log("City Text:", cityText);
   //Get city name
   cityName = data.name;
-
   //call function to create the searched city button
   createSearchedCity(cityName);
 }
@@ -147,7 +134,6 @@ function displayCityData(data) {
 //create the searched city button and make it work
 function createSearchedCity(cityName) {
   //save city into searched city block
-  //TODO: limit of number of searched cities listed
   var searchedCityDiv = document.createElement("div");
   var searchedCityButton = document.createElement("button");
   searchedCityButton.classList.add(
@@ -163,19 +149,13 @@ function createSearchedCity(cityName) {
   //create event listener for the searched city button
   searchedCityButton.addEventListener("click", handleSearchFormSubmit);
 
-  //TODO: order cities by descending order
-  //TODO: stop cities duplicating
-  //TODO: cities being returned in lowercase not mixed case
-  //TODO: is this return needed?
   return searchedCityButton;
 }
 
 //display the one call weather API data
 function displayOneCallWeatherData(data) {
   var oneCallText = data;
-  console.log("OneCallText:", oneCallText);
 
-  //get date
   // calculate local date using API timezone_offset
   var offset = data.timezone_offset;
   var date = new Date();
@@ -222,22 +202,21 @@ function displayOneCallWeatherData(data) {
 
   //TODO: update to normal classList.add format (below syntax was from trying to fix bg colour-fixed now in CSS)
   if (parseInt(uvi) < 3) {
-    uviDisplay.className += "btn btn-success disable-hover";
+    uviDisplay.classList.add("btn", "btn-success", "disable-hover");
   } else if (parseInt(uvi) >= 3 && parseInt(uvi) < 6) {
-    uviDisplay.className += "btn btn-warning disable-hover";
+    uviDisplay.classList.add("btn", "btn-warning", "disable-hover");
   } else if (parseInt(uvi) === 6 || parseInt(uvi) === 7) {
-    uviDisplay.className += "btn btn-high disable-hover";
+    uviDisplay.classList.add("btn", "btn-high", "disable-hover");
   } else if (parseInt(uvi) > 7 && parseInt(uvi) < 12) {
-    uviDisplay.className += "btn btn-danger disable-hover";
+    uviDisplay.classList.add("btn", "btn-danger", "disable-hover");
   } else {
-    uviDisplay.className += "btn btn-extreme disable-hover";
+    uviDisplay.classList.add("btn", "btn-extreme", "disable-hover");
   }
 }
 
-//getCurrentWeather uses passed in city variable
-//to create url string and pass url to 6.callApi
+//getCurrentWeather uses passed in city 
 function getCurrentWeather(city) {
-  //TODO: error when city is not found
+
   var queryCityString =
     "https://api.openweathermap.org/data/2.5/weather?q=" +
     city +
@@ -247,14 +226,11 @@ function getCurrentWeather(city) {
 }
 
 // display the 5-day forecast
-//TODO: reduce repetition
 //call forecast function at same time as calling display of city data
-//function added to getWeatherData(city)
 function display5DayForecast(data) {
   //a loop to build array of card objects
   for (var i = 0; i < 5; i++) {
     //"i" is the number of the day in the 5 day forecast
-    // declare elements
     //create forecast elements
     //forecast dark-grey card
     var forecastCard = document.createElement("div");
@@ -283,8 +259,7 @@ function display5DayForecast(data) {
     var forecastHumidity = document.createElement("p");
     forecastHumidity.classList.add("card-text", "custom-card-text");
 
-    //get date
-    // calculate local date using API timezone_offset
+    // calculate city's local date using API timezone_offset
     //ISSUE: some dates are not correct, e.g. current and first forecast date are same OR two days apart
     var offset = data.timezone_offset;
     var date = new Date();
@@ -295,21 +270,20 @@ function display5DayForecast(data) {
     var convertedDate = new Date(targetCityDate);
 
     if (convertedDate > moment()) {
-      convertedDate.setDate(date.getDate() + i + 1);
+      convertedDate.setDate(date.getDate() + i + 2);
     } else {
       convertedDate.setDate(date.getDate() + i + 1);
     }
 
     convertedDate.toLocaleString();
     var forecastDate = moment(convertedDate).format("DD/MM/YYYY");
-    // console.log("forecastDate", forecastDate);
     // add date to heading element
     cardDate.textContent = forecastDate;
 
     // get forecast temp
     var temp = data.daily[i].temp.day;
     temp = "Temp: " + temp + "°C";
-    // console.log("daily temp", temp);
+
     // add temp to p element
     forecastTemp.textContent = temp;
 
@@ -318,19 +292,18 @@ function display5DayForecast(data) {
     var forecasteIconUrl =
       "http://openweathermap.org/img/wn/" + weatherIcon + "@2x.png";
     forecastIcon.src = forecasteIconUrl;
-    // console.log("forecastrIconUrl" , forecastrIconUrl)
 
     // get forecast wind
     var wind = data.daily[i].wind_speed;
     wind = "Wind: " + wind + "°C";
-    //  console.log("wind_speed ", wind);
+
     // add temp to p element
     forecastWind.textContent = wind;
 
     // get forecast humidity
     var humidity = data.daily[i].humidity;
     humidity = "Humidity: " + humidity + " %";
-    // console.log("humidity ", humidity);
+
     // add temp to p element
     forecastHumidity.textContent = humidity;
 
@@ -342,11 +315,9 @@ function display5DayForecast(data) {
     forecastCardBody.appendChild(forecastHumidity);
     forecastCard.appendChild(forecastCardBody);
     forecastColumn.appendChild(forecastCard);
-
   }
 
-  showFiveDayForecastHeading()
-
+  showFiveDayForecastHeading();
 }
 
 function showFiveDayForecastHeading() {
@@ -369,10 +340,9 @@ function getOneCallApi(lon, lat) {
   return callApi(queryOneCallString);
 }
 
-//callApi takes the url and gets the jason response
+//callApi takes the url and gets the JSON response
 function callApi(url) {
   return fetch(url).then(function (response) {
-    // console.log(response);
     if (!response.ok) {
       swal("City not found", "Try searching again", "error");
       fiveDayHeading.classList.add("hideFiveDayHeading");
@@ -414,7 +384,6 @@ function titleCase(str) {
   return result.join(" ");
 }
 
-//LOCAL STORAGE NOT WORKING
 // retrieve stored cities when the page loads
 function init() {
   var storedCities = JSON.parse(localStorage.getItem("city-history"));
@@ -426,10 +395,8 @@ function init() {
   for (var i = 0; i < cityHistory.length; i++) {
     var city = cityHistory[i];
 
-    // console.log("init city", city);
     createSearchedCity(city);
   }
 }
 
 init();
-
