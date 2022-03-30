@@ -44,7 +44,7 @@ function handleSearchFormSubmit(event) {
     //create element selector with city entered in "search-input" text field
     searchCity = document.querySelector("#search-city").value;
     console.log("submit searchCity", searchCity);
-    
+
     //add city to local storage
     searchCity.toLowerCase();
     titleCase(searchCity);
@@ -57,6 +57,7 @@ function handleSearchFormSubmit(event) {
   }
   //if nothing in the "search-input" text field, then show  error
   //TODO: make a pop up error
+  //TODO: issue is will save any word into local storage - i.e. words that are not cities
   if (!searchCity) {
     console.error("Enter a city name");
     return;
