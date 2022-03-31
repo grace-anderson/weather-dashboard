@@ -35,7 +35,6 @@ function handleSearchFormSubmit(event) {
   document.querySelector("#city-wind").innerHTML = "";
   document.querySelector("#city-humidity").innerHTML = "";
   document.querySelector("#city-UVindex").innerHTML = "";
-  //TODO - update the big teal card to display none
 
   //clear forecast content
   clearForecastContent();
@@ -69,7 +68,6 @@ function handleSearchFormSubmit(event) {
       // extract the item out
       var extracted = cityHistory.splice(cityIndex, 1)[0];
       // insert the extracted to the end of the array
-      // cityHistory.push(extracted);
     }
 
     cityHistory.push(searchCity.toLowerCase());
@@ -260,7 +258,7 @@ function display5DayForecast(data) {
     forecastHumidity.classList.add("card-text", "custom-card-text");
 
     // calculate city's local date using API timezone_offset
-    //ISSUE: some dates are not correct, e.g. current and first forecast date are same OR two days apart
+    //ISSUE: some dates are not correct, appears when date is in the future from users timezone
     var offset = data.timezone_offset;
     var date = new Date();
     var localTime = date.getTime();
