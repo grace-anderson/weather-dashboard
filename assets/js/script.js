@@ -266,12 +266,7 @@ function display5DayForecast(data) {
     var utc = localTime + localOffset;
     var targetCityDate = utc + offset * 1000;
     var convertedDate = new Date(targetCityDate);
-
-    if (convertedDate > moment()) {
-      convertedDate.setDate(date.getDate() + i + 2);
-    } else {
-      convertedDate.setDate(date.getDate() + i + 1);
-    }
+    convertedDate.setDate(date.getDate() + i + 1);
 
     convertedDate.toLocaleString();
     var forecastDate = moment(convertedDate).format("DD/MM/YYYY");
