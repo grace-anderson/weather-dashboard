@@ -5,7 +5,7 @@ The Weather Dashboard app enables a user to retrieve weather information for a s
 
 [Deployed Weather Dashboard app](https://grace-anderson.github.io/weather-dashboard/)
 
-## Features
+## Features and Technology
 
 The Weather Dashboard uses the [OpenWeather One Call API](https://openweathermap.org/api/one-call-api) to retrieve weather data for searched cities. 
 
