@@ -9,7 +9,7 @@ The Weather Dashboard app enables a user to retrieve weather information for a s
 
 The Weather Dashboard uses the [OpenWeather One Call API](https://openweathermap.org/api/one-call-api) to retrieve weather data for searched cities. 
 
-The app runs in the browser using dynamically updated HTML and CSS powered by jQuery.  [Moment.js](https://momentjs.com/) is used to work with date and time. Local storage saves the five most recent searched cities. [SweetAlert](https://sweetalert.js.org/) generates formatted warning and error alerts. 
+The app runs in the browser using dynamically updated HTML and CSS powered by JavaScript.  [Moment.js](https://momentjs.com/) is used to work with date and time. Local storage saves the five most recent searched cities. [SweetAlert](https://sweetalert.js.org/) generates formatted warning and error alerts. 
 
 The application code is available on [GitHub](https://github.com/grace-anderson/weather-dashboard). 
 
