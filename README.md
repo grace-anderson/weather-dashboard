@@ -5,6 +5,15 @@ The Weather Dashboard app enables a user to retrieve weather information for a s
 
 [Deployed Weather Dashboard app](https://grace-anderson.github.io/weather-dashboard/)
 
+## Technologies
+* HTML5
+* CSS3
+* JavaScript
+* Bootstrap CSS Library
+* [OpenWeather One Call API](https://openweathermap.org/api/one-call-api)
+* [Moment.js](https://momentjs.com/)
+* [SweetAlert](https://sweetalert.js.org/)
+
 ## Features
 
 The Weather Dashboard uses the [OpenWeather One Call API](https://openweathermap.org/api/one-call-api) to retrieve weather data for searched cities. 
@@ -30,3 +39,9 @@ Four issues are unresolved at this time, and will be addressed in the future. Mo
 The gif demonstrates the Weather Dashboard's appearance and functionality
 
 ![A user searches for a city and retrieves current and forecast weather information. The user then searches using a saved city. Finally the user refreshes the browser, showing the list of five retained cities](./assets/weather-dashboard.gif)
+
+## Contact
+
+Email: [helen.g.anderson@me.com](mailto:helen.g.anderson@me.com)
+
+Phone: +61450010325
